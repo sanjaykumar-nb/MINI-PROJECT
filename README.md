@@ -1,4 +1,4 @@
-# RESEARCH ASSISTANT | Enhanced RAG System v9.0
+# AI - RESEARCH ASSISTANT WITH CLIPBOARD EXTRACTION| Enhanced RAG System 
 
 [![Version](https://img.shields.io/badge/version-9.0-blue.svg)](https://github.com/sanjaykumar-nb/MINI-PROJECT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/downloads/)
@@ -98,4 +98,4 @@ Contributions are welcome! Whether it's adding a new Research API or improving t
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-**Built with ❤️ for serious researchers.**
+
