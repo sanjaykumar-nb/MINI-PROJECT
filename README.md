@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-# MINI-PROJECT
-=======
 # RESEARCH ASSISTANT | Enhanced RAG System v9.0
 
-[![Version](https://img.shields.io/badge/version-9.0-blue.svg)](https://github.com/your-repo)
+[![Version](https://img.shields.io/badge/version-9.0-blue.svg)](https://github.com/sanjaykumar-nb/MINI-PROJECT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![UI: Flet](https://img.shields.io/badge/UI-Flet-red.svg)](https://flet.dev/)
@@ -12,101 +9,93 @@
 
 ---
 
-## 🚀 Why Research Assistant?
+## 🏗️ System Architecture
 
-Traditional RAG systems are often slow to start and heavy on resources. **Research Assistant v9.0 (Lightweight Edition)** solves this with a **22x faster startup** (< 2 seconds) and a **50% smaller memory footprint** using advanced optimization techniques like lazy loading and Float16 embeddings.
+The system follows a modular architecture designed for low latency and high availability.
 
-### ✨ Key Features
-
-*   **🤖 Multi-Tier API Fallback**: Never lose access to your AI. The system intelligently switches between **Ollama (Local)**, **Groq (Cloud)**, and a robust **Local Template** fallback.
-*   **📡 Hybrid Research Core**:
-    *   **Project Hubs**: Organize documents into domain-specific knowledge bases.
-    *   **Web Search (`//web`)**: Ground your answers in real-time data using integrated DuckDuckGo search.
-    *   **Clipboard Integration (`//clipboard`)**: Instantly process text from your system clipboard.
-*   **🖥️ Premium Desktop Experience**: A sleek, dark-themed UI built with Flet, featuring real-time CPU/RAM monitoring and a selectable AI output area.
-*   **⚡ Extreme Performance**:
-    *   **Instant Startup**: Only loads AI models when they are actually needed.
-    *   **Batch Processing**: Parallel PDF parsing and chunk embedding (64 chunks at a time).
-    *   **Cross-Encoder Reranking**: Superior relevance by reranking search results with a secondary model.
-
----
-
-## 🛠️ Quick Start
-
-### 1. Requirements
-
-*   Python 3.8 or higher.
-*   [Ollama](https://ollama.ai/) (Optional, but recommended for local-first privacy).
-*   Groq API Key (Optional, for high-speed cloud inference).
-
-### 2. Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/your-repo/research-assistant.git
-cd research-assistant
-
-# Run the automated setup script (Recommended)
-python setup.py
-
-# Manual installation
-pip install -r requirements.txt
-```
-
-### 3. Launch the Application
-
-```bash
-python desktop_app.py
+```mermaid
+graph TD
+    UI[Flet Desktop UI] --> CTRL[Central Logic Controller]
+    CTRL --> DL[Lazy Document Loader]
+    CTRL --> ES[Embedding Service - Float16]
+    CTRL --> LS[LLM Service - Multi-Tier Fallback]
+    
+    DL --> PDF[(PDF Knowledge Hubs)]
+    ES --> VDB[(FAISS Vector Database)]
+    
+    LS --> Groq[Cloud: Groq API]
+    LS --> Ollama[Local: Ollama]
+    LS --> Temp[Fallback: Rule-based Templates]
+    
+    CTRL --> Web[Web Search - DuckDuckGo]
+    CTRL --> Clip[Clipboard Monitor]
 ```
 
 ---
 
-## 📖 Usage Guide
+## ✨ Key Features
 
-### Managing Knowledge Hubs
-1.  **Create a Hub**: Click "New Hub" in the sidebar and define your research domain.
-2.  **Add Knowledge**: Click "Upload PDFs" in the right panel to ingest documents.
-3.  **Chat**: Use the central intelligence terminal to ask questions.
+### 🤖 Intelligent Orchestration
+*   **Multi-Tier API Fallback**: The system intelligently prioritizes **Groq** for speed, falls back to **Ollama** for privacy/offline use, and finally to a **Local Template** system to ensure 100% availability.
+*   **Hybrid Research Core**: Combines local document knowledge with live **Web Search** (`//web`) and **Clipboard Context** (`//clipboard`) for truly comprehensive answers.
 
-### Advanced Commands (Terminal)
-*   `//web [query]`: Searches the web for the latest information to supplement your documents.
-*   `//clipboard [query]`: Uses the text currently in your clipboard as additional context.
+### ⚡ Extreme Performance (The v9.0 "Lightweight" Engine)
+*   **Instant Startup**: Achieved via **Lazy Loading**. Heavy AI libraries (like HuggingFace/Torch) are only initialized when the first query is sent.
+*   **Parallel PDF Processing**: Uses multi-threading for document ingestion, capable of processing up to 10 pages per second.
+*   **Binary/Float16 Embeddings**: Reduces vector storage by 50% while maintaining 98%+ retrieval accuracy.
 
----
-
-## 📊 Performance Benchmarks
-
-| Metric | v7 (Legacy) | v9 (Optimized) | Improvement |
-| :--- | :--- | :--- | :--- |
-| **Startup Time** | ~45 Seconds | **< 2 Seconds** | **22x Faster** |
-| **Memory Usage** | ~2 GB | **< 500 MB** | **4x More Efficient** |
-| **PDF Processing** | 1-2 Pages/Sec | **5-10 Pages/Sec** | **5x Faster** |
-| **Query Speed** | ~10 Seconds | **< 3 Seconds** | **3x Faster** |
+### 🖥️ Premium User Experience
+*   **Dark Mode Pro**: A custom-crafted, aesthetic interface with glassmorphic elements.
+*   **Real-time Diagnostics**: Monitor CPU and RAM usage directly within the app.
+*   **Project Workspace**: Organize your research into "Knowledge Hubs" mapping to specific research domains.
 
 ---
 
-## ⚙️ Configuration
+## 🛠️ Technical Stack
 
-The system uses a `.env` file for configuration. Copy `.env.example` to `.env` and add your API keys:
-
-```bash
-# API Keys
-GROQ_API_KEY=your_key_here
-HF_TOKEN=your_token_here
-
-# Performance Toggles
-ENABLE_REMOTE_APIS=1  # 1 for Enable, 0 for Local-Only
-ENABLE_RERANKING=1
-USE_FLOAT16=1
-```
+| Component | Technology | Rationale |
+| :--- | :--- | :--- |
+| **Frontend** | [Flet](https://flet.dev/) (Flutter-powered Python) | High-performance, native-feel desktop UI. |
+| **Vector DB** | [FAISS](https://github.com/facebookresearch/faiss) | Industrial-scale similarity search with minimal overhead. |
+| **Embeddings** | `all-MiniLM-L6-v2` (Quantized) | Best-in-class balance between speed and accuracy. |
+| **PDF Engine** | `PyMuPDF` | The fastest PDF parsing library available for Python. |
+| **Remote LLM**| Groq (Llama 3 70B) | Sub-second inference latency. |
+| **Local LLM** | Ollama | Complete data privacy for sensitive research. |
 
 ---
+
+## ⚙️ Configuration & Setup
+
+1.  **Clone & Setup**:
+    ```bash
+    git clone https://github.com/sanjaykumar-nb/MINI-PROJECT.git
+    python setup.py
+    ```
+2.  **Environmental Variables**:
+    Create a `.env` file (see `.env.example`):
+    *   `ENABLE_REMOTE_APIS`: Toggle between cloud-assisted and local-only.
+    *   `ENABLE_CLIPBOARD`: Enable/disable background clipboard monitoring.
+    *   `OLLAMA_BASE_URL`: Customize your local AI endpoint.
+
+---
+
+## 🧪 Technical Deep Dive: Optimization Techniques
+
+### 1. The Startup Magic
+In v7.0, the app took 45s to open because it loaded the Embedding model on boot. In **v9.0**, we wrap the embedding and LLM clients in a **Lazy Proxy**. The UI renders in < 1s, and models load in the background only when required.
+
+### 2. Context Reranking
+We don't just find the top 5 chunks. We use a **Cross-Encoder reranker** as a second pass to ensure the context provided to the LLM is perfectly relevant, significantly reducing "AI Halucinations".
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's adding a new Research API or improving the UI aesthetics, feel free to fork and PR.
 
 ## ⚖️ License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-
-**Built with ❤️ by the Research Assistant Team.**
->>>>>>> 694d909 (feat: Initial commit of Research Assistant v9.0)
+**Built with ❤️ for serious researchers.**
